@@ -1,0 +1,50 @@
+[    0.000000] Linux version 4.10.0-eudyptula (root@gnshost) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ) #4 SMP Mon Feb 20 00:34:51 PST 2017
+[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-4.10.0-eudyptula root=UUID=0681d0e6-3add-4095-821f-0b24457b5234 ro quiet splash crashkernel=384M-:128M crashkernel=384M-:128M crashkernel=384M-:128M vt.handoff=7
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+[    0.000000]   Centaur CentaurHauls
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009e7ff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009e800-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000e0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000ca7d2fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000ca7d3000-0x00000000caaaefff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000caaaf000-0x00000000caabefff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x00000000caabf000-0x00000000cb8c4fff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000cb8c5000-0x00000000cca33fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000cca34000-0x00000000cca34fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000cca35000-0x00000000ccc3afff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000ccc3b000-0x00000000cd082fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000cd083000-0x00000000cd7f3fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000cd7f4000-0x00000000cd7fffff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fec10000-0x00000000fec10fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fec20000-0x00000000fec20fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed00000-0x00000000fed00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed61000-0x00000000fed70fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed80000-0x00000000fed8ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fef00000-0x00000000ffffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000100001000-0x000000042fffffff] usable
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] SMBIOS 2.7 present.
+[    0.000000] DMI: To be filled by O.E.M. To be filled by O.E.M./M5A99FX PRO R2.0, BIOS 2501 04/07/2014
+[    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000000] AGP: No AGP bridge found
+[    0.000000] e820: last_pfn = 0x430000 max_arch_pfn = 0x400000000
+[    0.000000] MTRR default type: uncachable
+[    0.000000] MTRR fixed ranges enabled:
+[    0.000000]   00000-9FFFF write-back
+[    0.000000]   A0000-BFFFF write-through
+[    0.000000]   C0000-CDFFF write-protect
+[    0.000000]   CE000-EBFFF uncachable
+[    0.000000]   EC000-FFFFF write-protect
+[    0.000000] MTRR variable ranges enabled:
+[    0.000000]   0 base 000000000000 mask FFFF80000000 write-back
+[    0.000000]   1 base 000080000000 mask FFFFC0000000 write-back
