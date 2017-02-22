@@ -1,6 +1,6 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include <asm/delay.h>
+#include <linux/delay.h>
 #include <linux/slab.h>
 
 #define DELAY_DUR	10
@@ -11,12 +11,11 @@ int do_work(int *my_int)
 	int x;
 	int y = *my_int;
 	int z;
-	
-	for (x = 0; x < y; ++x) {
-		udelay(DELAY_DUR);
-	}
 
-	if (y < WORK_SEED ) {
+	for (x = 0; x < y; ++x)
+		udelay(DELAY_DUR);
+
+	if (y < WORK_SEED) {
 
 		/*
 		 * That was a long sleep, tell userspace about it
