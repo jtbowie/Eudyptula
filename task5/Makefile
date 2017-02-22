@@ -1,15 +1,12 @@
+CONFIG_MODULE_SIG=n
+
+CFLAGS_mod_hello_girls.o := -DDEBUG
 obj-m += mod_hello_girls.o
 
-all:
-ifeq ($(VER),)
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-else
-	make -C /lib/modules/$(VER)/build M=$(PWD) modules
-endif
+VER ?= $(shell uname -r)
+KDIR = /lib/modules/$(VER)/build
 
+all:
+	make -C $(KDIR) M=$(PWD) modules
 clean:
-ifeq ($(VER),)
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-else
-	make -C /lib/modules/$(VER)/build M=$(PWD) clean
-endif
+	make -C $(KDIR) M=$(PWD) clean
