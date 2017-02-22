@@ -3,35 +3,43 @@
 #include <asm/delay.h>
 #include <linux/slab.h>
 
-int do_work( int * my_int, int retval ) {
+#define DELAY_DUR	10
+#define WORK_SEED	10
+
+int do_work(int *my_int)
+{
 	int x;
-	int y=*my_int;
+	int y = *my_int;
 	int z;
 	
-	for(x=0;x< * my_int;++x) {
-		udelay(10);
+	for (x = 0; x < y; ++x) {
+		udelay(DELAY_DUR);
 	}
 
-	if (y < 10 )
-		// That was a long sleep, tell userspace about it
-		printk("We slept a long time!");
+	if (y < WORK_SEED ) {
+
+		/*
+		 * That was a long sleep, tell userspace about it
+		 */
+
+		pr_debug("We slept a long time!");
+	}
 
 	z = x * y;
 
 	return z;
 }
 
-int
-my_init (void)
+int my_init(void)
 {
-	int x = 10;
+	int x = WORK_SEED;
 
-	x = do_work(&x, x);
+	x = do_work(&x);
 
 	return x;
 }
 
-void my_exit( void )
+void my_exit(void)
 {
 	return;
 }
