@@ -1,5 +1,6 @@
 CONFIG_MODULE_SIG=n
 
+CFLAGS_mod_hello_girls.o := -DDEBUG
 obj-m += mod_hello_girls.o
 
 VER ?= $(shell uname -r)
