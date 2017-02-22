@@ -1,0 +1,100 @@
+[    0.000000] Linux version 4.10.0-02512-g7bb0338 (xxxx@gnshost) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ) #2 SMP Tue Feb 21 23:26:19 PST 2017
+[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-4.10.0-02512-g7bb0338 root=UUID=0681d0e6-3add-4095-821f-0b24457b5234 ro quiet splash crashkernel=384M-:128M crashkernel=384M-:128M crashkernel=384M-:128M vt.handoff=7
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+[    0.000000]   Centaur CentaurHauls
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009e7ff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009e800-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000e0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x00000000ca7d2fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000ca7d3000-0x00000000caaaefff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000caaaf000-0x00000000caabefff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x00000000caabf000-0x00000000cb8c4fff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000cb8c5000-0x00000000cca33fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000cca34000-0x00000000cca34fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000cca35000-0x00000000ccc3afff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000ccc3b000-0x00000000cd082fff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000cd083000-0x00000000cd7f3fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000cd7f4000-0x00000000cd7fffff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fec10000-0x00000000fec10fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fec20000-0x00000000fec20fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed00000-0x00000000fed00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed61000-0x00000000fed70fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fed80000-0x00000000fed8ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fef00000-0x00000000ffffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000100001000-0x000000042fffffff] usable
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] SMBIOS 2.7 present.
+[    0.000000] DMI: To be filled by O.E.M. To be filled by O.E.M./M5A99FX PRO R2.0, BIOS 2501 04/07/2014
+[    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000000] AGP: No AGP bridge found
+[    0.000000] e820: last_pfn = 0x430000 max_arch_pfn = 0x400000000
+[    0.000000] MTRR default type: uncachable
+[    0.000000] MTRR fixed ranges enabled:
+[    0.000000]   00000-9FFFF write-back
+[    0.000000]   A0000-BFFFF write-through
+[    0.000000]   C0000-CDFFF write-protect
+[    0.000000]   CE000-EBFFF uncachable
+[    0.000000]   EC000-FFFFF write-protect
+[    0.000000] MTRR variable ranges enabled:
+[    0.000000]   0 base 000000000000 mask FFFF80000000 write-back
+[    0.000000]   1 base 000080000000 mask FFFFC0000000 write-back
+[    0.000000]   2 base 0000C0000000 mask FFFFF0000000 write-back
+[    0.000000]   3 base 0000CD800000 mask FFFFFF800000 uncachable
+[    0.000000]   4 base 0000CE000000 mask FFFFFE000000 uncachable
+[    0.000000]   5 disabled
+[    0.000000]   6 disabled
+[    0.000000]   7 disabled
+[    0.000000] TOM2: 0000000430000000 aka 17152M
+[    0.000000] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WC  UC- WT  
+[    0.000000] total RAM covered: 3288M
+[    0.000000] Found optimal setting for mtrr clean up
+[    0.000000]  gran_size: 64K 	chunk_size: 64M 	num_reg: 5  	lose cover RAM: 0G
+[    0.000000] e820: update [mem 0xcd800000-0xffffffff] usable ==> reserved
+[    0.000000] e820: last_pfn = 0xcd800 max_arch_pfn = 0x400000000
+[    0.000000] Scanning 1 areas for low memory corruption
+[    0.000000] Base memory trampoline at [ffff9b1700098000] 98000 size 24576
+[    0.000000] Using GB pages for direct mapping
+[    0.000000] BRK [0x3e128b000, 0x3e128bfff] PGTABLE
+[    0.000000] BRK [0x3e128c000, 0x3e128cfff] PGTABLE
+[    0.000000] BRK [0x3e128d000, 0x3e128dfff] PGTABLE
+[    0.000000] BRK [0x3e128e000, 0x3e128efff] PGTABLE
+[    0.000000] BRK [0x3e128f000, 0x3e128ffff] PGTABLE
+[    0.000000] BRK [0x3e1290000, 0x3e1290fff] PGTABLE
+[    0.000000] BRK [0x3e1291000, 0x3e1291fff] PGTABLE
+[    0.000000] BRK [0x3e1292000, 0x3e1292fff] PGTABLE
+[    0.000000] BRK [0x3e1293000, 0x3e1293fff] PGTABLE
+[    0.000000] BRK [0x3e1294000, 0x3e1294fff] PGTABLE
+[    0.000000] BRK [0x3e1295000, 0x3e1295fff] PGTABLE
+[    0.000000] RAMDISK: [mem 0x30650000-0x3431ffff]
+[    0.000000] ACPI: Early table checksum verification disabled
+[    0.000000] ACPI: RSDP 0x00000000000F0490 000024 (v02 ALASKA)
+[    0.000000] ACPI: XSDT 0x00000000CAAB7070 000054 (v01 ALASKA A M I    01072009 AMI  00010013)
+[    0.000000] ACPI: FACP 0x00000000CAABE120 00010C (v05 ALASKA A M I    01072009 AMI  00010013)
+[    0.000000] ACPI BIOS Warning (bug): Optional FADT field Pm2ControlBlock has valid Length but zero Address: 0x0000000000000000/0x1 (20170119/tbfadt-658)
+[    0.000000] ACPI: DSDT 0x00000000CAAB7158 006FC3 (v02 ALASKA A M I    00000000 INTL 20051117)
+[    0.000000] ACPI: FACS 0x00000000CB8BFF80 000040
+[    0.000000] ACPI: APIC 0x00000000CAABE230 00009E (v03 ALASKA A M I    01072009 AMI  00010013)
+[    0.000000] ACPI: FPDT 0x00000000CAABE2D0 000044 (v01 ALASKA A M I    01072009 AMI  00010013)
+[    0.000000] ACPI: MCFG 0x00000000CAABE318 00003C (v01 ALASKA A M I    01072009 MSFT 00010013)
+[    0.000000] ACPI: HPET 0x00000000CAABE358 000038 (v01 ALASKA A M I    01072009 AMI  00000005)
+[    0.000000] ACPI: SSDT 0x00000000CAABE3E8 000304 (v01 AMD    POWERNOW 00000001 AMD  00000001)
+[    0.000000] ACPI: Local APIC address 0xfee00000
+[    0.000000] No NUMA configuration found
+[    0.000000] Faking a node at [mem 0x0000000000000000-0x000000042fffffff]
+[    0.000000] NODE_DATA(0) allocated [mem 0x42fff9000-0x42fffdfff]
+[    0.000000] Reserving 128MB of memory at 640MB for crashkernel (System RAM: 16299MB)
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    0.000000]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000042fffffff]
+[    0.000000]   Device   empty
