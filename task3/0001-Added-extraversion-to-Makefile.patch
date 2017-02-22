@@ -1,0 +1,26 @@
+From 28da37e5eded5b8f99f715400a77b912effc79e0 Mon Sep 17 00:00:00 2001
+From: Jonathan Bowie <eudjtb@gmail.com>
+Date: Tue, 21 Feb 2017 08:14:40 -0800
+Subject: [1be5456d23a8] Task 03 Results
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index f1e6a02..d472d3e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ VERSION = 4
+ PATCHLEVEL = 10
+ SUBLEVEL = 0
+-EXTRAVERSION =
++EXTRAVERSION = -eudyptula
+ NAME = Fearless Coyote
+ 
+ # *DOCUMENTATION*
+-- 
+2.7.4
+
+Signed-off-by: Jonathan Bowie <eudjtb@gmail.com>
