@@ -1,17 +1,11 @@
 CONFIG_MODULE_SIG=n
 
-obj-m += mod_firstchar.o
+obj-m += mod_hello_girls.o
+
+VER ?= $(shell uname -r)
+KDIR = /lib/modules/$(VER)/build
 
 all:
-ifeq ($(VER),)
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-else
-	make -C /lib/modules/$(VER)/build M=$(PWD) modules
-endif
-
+	make -C $(KDIR) M=$(PWD) modules
 clean:
-ifeq ($(VER),)
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-else
-	make -C /lib/modules/$(VER)/build M=$(PWD) clean
-endif
+	make -C $(KDIR) M=$(PWD) clean
