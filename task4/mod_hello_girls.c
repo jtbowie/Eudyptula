@@ -19,5 +19,4 @@ int init_module(void)
 void cleanup_module(void)
 {
 	pr_debug("I hate to see you leave, but...\n");
-	return;
 }
