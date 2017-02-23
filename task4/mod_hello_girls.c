@@ -1,7 +1,7 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 
-/* 
+/*
  * Init our module. Constructor Power!
  */
 
@@ -12,7 +12,7 @@ int init_module(void)
 	return 0;
 }
 
-/* 
+/*
  * All good things must come to an end
  */
 
