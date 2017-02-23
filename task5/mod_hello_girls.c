@@ -4,6 +4,11 @@
 #include <linux/usb.h>
 #include <linux/usb/input.h>
 #include <linux/hid.h>
+#include "mod_hello_girls.h"
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("1be5456d23a8");
+MODULE_DESCRIPTION("Simple USB hotplug module for keyboards");
 
 /* 
  * Init our module. Constructor Power! 
@@ -17,25 +22,24 @@ static struct usb_device_id info_table [] = {
 };
 
 static struct usb_driver hello_hid_drv = {
-	.owner =	THIS_MODULE,
-	.name = 	"hello_hid"
-	.probe =	hid_probe,
-	.disconnect =	hid_disconnect,
-	.id_table = 	info_table,
+	.name =		"hello_hid",
+	.probe =	hello_hid_probe,
+	.disconnect = 	hello_hid_disconnect,
+	.id_table =	info_table,
 };
 
 MODULE_DEVICE_TABLE(usb,info_table);
 
-static int hid_probe(struct usb_interface *intf, 
+static int hello_hid_probe(struct usb_interface *intf, 
 		const struct usb_device_id *id)
 {
-	pr_notice("Found a Keyboard!  Hello world!\n");
+	pr_alert("Found a Keyboard!  Hello world!\n");
 	return 0;
 }
 
-static void hid_disconnect(struct usb_interface *intf)
+static void hello_hid_disconnect(struct usb_interface *intf)
 {
-	pr_notice("Hey!@@#$ Come back here :(\n");
+	pr_alert("Hey!@@#$ Come back here :(\n");
 }
 
 int init_module(void)

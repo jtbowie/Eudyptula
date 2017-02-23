@@ -15,14 +15,13 @@ int do_work(int *my_int)
 	for (x = 0; x < y; ++x)
 		udelay(DELAY_DUR);
 
-	if (y < WORK_SEED) {
+	if (y < WORK_SEED)
 
 		/*
 		 * That was a long sleep, tell userspace about it
 		 */
 
 		pr_debug("We slept a long time!");
-	}
 
 	z = x * y;
 
