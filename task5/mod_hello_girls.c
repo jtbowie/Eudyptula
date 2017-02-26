@@ -4,11 +4,14 @@
 #include <linux/usb.h>
 #include <linux/usb/input.h>
 #include <linux/hid.h>
-#include "mod_hello_girls.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("1be5456d23a8");
 MODULE_DESCRIPTION("Simple USB hotplug module for keyboards");
+
+static int hello_hid_probe(struct usb_interface *,
+                        const struct usb_device_id *);
+static void hello_hid_disconnect(struct usb_interface *);
 
 /* 
  * Init our module. Constructor Power! 
@@ -60,6 +63,6 @@ int init_module(void)
 
 void cleanup_module(void)
 {
-	printk(KERN_DEBUG "I hate to see you leave, but...\n");
+	pr_debug("I hate to see you leave, but...\n");
 	usb_deregister(&hello_hid_drv);
 }

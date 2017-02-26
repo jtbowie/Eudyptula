@@ -5,6 +5,7 @@
 #include <linux/uaccess.h>
 #include <linux/string.h>
 #include <linux/jiffies.h>
+#include <linux/spinlock.h>
 #include "debugfs.h"
 
 MODULE_LICENSE("GPL");
@@ -17,19 +18,37 @@ static unsigned short success = 0;
 static ssize_t foo_read(struct file *filp, char __user *buffer, size_t len,
 	loff_t *offset)
 {
-	return 0;
+	if (*offset != 0)
+		return 0;
+
+	read_lock(&lck);
+	copy_to_user(buffer, &foo_page, PAGE_SIZE);	
+	read_unlock(&lck);
+
+	*offset += len;
+
+	return PAGE_SIZE;
 }
 
 static ssize_t foo_write(struct file *filp, const char __user *buffer,
 	size_t len, loff_t *offset)
 {
-	return 0;
+	char *ptr = (char *)&foo_page;
+
+	if (len > PAGE_SIZE)
+		len = PAGE_SIZE;
+	
+	write_lock(&lck);
+	if (copy_from_user(ptr, buffer, len)) 
+		return -EINVAL;
+	write_unlock(&lck);
+
+	return len;
 }
 
 static ssize_t id_read(struct file *filp, char __user *buffer, size_t len,
 	loff_t *offset)
 {
-
 	if (*offset != 0)
 		return 0;
 
@@ -94,6 +113,10 @@ int make_endpoints(void)
 int init_module(void)
 {
 	static int ret;
+	char *ptr = (char *)&foo_page;
+	memset(ptr, '\x00', PAGE_SIZE+1);
+
+	sprintf(foo_page, "Initializing foo page...\n");
 
 	dent = debugfs_create_dir(DEBUGFS_DIR, NULL);
 	if (dent == ERR_PTR(-ENODEV)) {
@@ -111,6 +134,8 @@ int init_module(void)
 	}
 
 	ret = make_endpoints();
+
+	rwlock_init(&lck);
 
 	if (ret) {
 		pr_alert("Making endpoints failed!\n");

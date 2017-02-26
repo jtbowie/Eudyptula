@@ -7,5 +7,8 @@
 
 static char my_id[13] = EUD_ID;
 static char *id_ptr = (char *)&my_id;
+static rwlock_t lck;
+static char foo_page[PAGE_SIZE+1];
+
 int make_endpoints(void);
 #endif
