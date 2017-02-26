@@ -17,10 +17,10 @@ MODULE_DESCRIPTION("simple debugfs module");
 static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *kattr, char *buf)
 {
 	read_lock(&lck);
-	memcpy(buf, (void *)&foo_page, PAGE_SIZE);
+	memcpy(buf, (void *)&foo_page, strlen(foo_page));
 	read_unlock(&lck);
 
-	return PAGE_SIZE;
+	return strlen(buf);
 }
 
 static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *kattr, const char *buf, size_t cnt)
@@ -64,7 +64,6 @@ ssize_t jiffies_show(struct kobject *kobj, struct kobj_attribute *kattr, char *b
 int init_module(void)
 {
 	static int ret;
-	struct kobject *eudy;
 
 	eudy = kobject_create_and_add("eudyptula", kernel_kobj);
 
@@ -86,4 +85,5 @@ int init_module(void)
 void cleanup_module(void)
 {
 	printk(KERN_DEBUG "I hate to see you leave, but...\n");
+	kobject_put(eudy);
 }

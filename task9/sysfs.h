@@ -14,14 +14,15 @@ static ssize_t jiffies_show(struct kobject *, struct kobj_attribute *, char *);
 static char my_id[13] = EUD_ID;
 static rwlock_t lck;
 static char foo_page[PAGE_SIZE+1];
-static struct kobj_attribute foo_attr = __ATTR(foo, 0744, foo_show, foo_store);
+static struct kobject *eudy;
+static struct kobj_attribute foo_attr = __ATTR(foo, 0644, foo_show, foo_store);
 /*
  * Since VERIFY_OCTAL_MODE() fucking hates S_IWOTH we have to define this
  * manually.  GRRR.
  */
 
 static struct kobj_attribute id_attr = {
-	.attr = { .name = "id", .mode = 0666, },
+	.attr = { .name = "id", .mode = 0664, },
 	.show = id_show,
 	.store = id_store,
 };
@@ -29,8 +30,8 @@ static struct kobj_attribute id_attr = {
 static struct kobj_attribute jiff_attr = __ATTR_RO(jiffies);
 
 static struct attribute *attrs[] = {
-	&foo_attr.attr,
 	&id_attr.attr,
+	&foo_attr.attr,
 	&jiff_attr.attr,
 	NULL,
 };
