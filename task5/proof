@@ -1,0 +1,12 @@
+root@gnshost:~# dmesg | grep -B 10 hello_hid
+[   10.376507] snd_hda_codec_realtek hdaudioC1D0:    inputs:
+[   10.376509] snd_hda_codec_realtek hdaudioC1D0:      Front Mic=0x19
+[   10.376510] snd_hda_codec_realtek hdaudioC1D0:      Rear Mic=0x18
+[   10.376515] snd_hda_codec_realtek hdaudioC1D0:      Line=0x1a
+[   10.394360] input: HDA ATI SB Front Mic as /devices/pci0000:00/0000:00:14.2/sound/card1/input8
+[   10.406614] ssb: Sonics Silicon Backplane found on PCI device 0000:09:05.0
+[   10.422875] systemd-journald[319]: Received request to flush runtime journal from PID 1
+[   10.471563] mod_hello_girls: loading out-of-tree module taints kernel.
+[   10.473799] mod_hello_girls: module verification failed: signature and/or required key missing - tainting kernel
+[   10.473921] Loading dummy HID module
+[   10.473945] usbcore: registered new interface driver hello_hid
