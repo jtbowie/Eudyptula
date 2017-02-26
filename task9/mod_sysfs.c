@@ -6,6 +6,8 @@
 #include <linux/string.h>
 #include <linux/jiffies.h>
 #include <linux/spinlock.h>
+#include <linux/sysfs.h>
+#include <linux/kobject.h>
 #include "sysfs.h"
 
 MODULE_LICENSE("GPL");
@@ -14,118 +16,62 @@ MODULE_DESCRIPTION("simple debugfs module");
 
 static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *kattr, char *buf)
 {
-	if (*offset != 0)
-		return 0;
-
 	read_lock(&lck);
-	copy_to_user(buffer, &foo_page, PAGE_SIZE);	
+	memcpy(buf, (void *)&foo_page, PAGE_SIZE);
 	read_unlock(&lck);
-
-	*offset += len;
 
 	return PAGE_SIZE;
 }
 
 static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *kattr, const char *buf, size_t cnt)
 {
-	char *ptr = (char *)&foo_page;
-
 	if (cnt > PAGE_SIZE)
-		len = PAGE_SIZE;
+		return -EINVAL;
 	
-	write_lock(&lck);
-	memcpy(buf, ptr, PAGE_SIZE);
-	write_unlock(&lck);
+	memcpy((void *)&foo_page, buf, cnt);
 
-	return len;
+	return cnt;
 }
 
 static ssize_t id_show(struct kobject *kobj, struct kobj_attribute *kattr, char *buf)
 {
-	if (*offset != 0)
-		return 0;
+	sprintf(buf, "%s\n", my_id);
 
-	if ((len < EUD_ID_LEN) || copy_to_user(buffer, id_ptr, EUD_ID_LEN))
-		return -EINVAL;
-
-	*offset += len;
-	return len;
+	return strlen(my_id);
 }
 
-static ssize_t id_store(struct kobject *kobj, struct kboj_attribute *kattr, char *buf) 
+static ssize_t id_store(struct kobject *kobj, struct kobj_attribute *kattr, const char *buf, size_t cnt) 
 {
 	char *ptr;
-	char input[EUD_ID_LEN];
 
-	if (len > EUD_ID_LEN) {
-		pr_alert("Buffer overflow attempt in eudyptula/id\n");
-		return -EINVAL;
-	}
+	ptr = strchr(buf, '\n');
 
-	copy_from_user(&input, buffer, len);
-
-	ptr = strchr(input, '\n');
-	if (ptr)
+	if (ptr) 
 		*ptr = '\x00';
-
-	if (strcmp(input, my_id))
+	
+	if (!strcmp(buf, my_id))
+		return cnt;
+	else
 		return -EINVAL;
-
-	return len;
 }
 
-ssize_t jiffies_show(struct kobject *kobj, struct kobj_attributes *kattr, char *buf)
+ssize_t jiffies_show(struct kobject *kobj, struct kobj_attribute *kattr, char *buf)
 {
-	sprintf(buf,"%d",jiffies);
+	sprintf(buf,"%ld\n",jiffies);
 	return sizeof(jiffies);
 }
-
-static struct file_operations id_fops = {
-        .owner = THIS_MODULE,
-        .read = id_read,
-        .write = id_write,
-};
-
-static struct file_operations foo_ops = {
-	.owner = THIS_MODULE,
-	.read = foo_read,
-	.write = foo_write,
-};
 
 int init_module(void)
 {
 	static int ret;
-	char *ptr = (char *)&foo_page;
-	memset(ptr, '\x00', PAGE_SIZE+1);
 	struct kobject *eudy;
 
-	foo_attr = __ATTR("foo", 0644, foo_show, foo_store);
-	id_attr = __ATTR("id", 0666, id_show, id_store);
-	jiff_attr = __ATTR_RO("jiffies");
+	eudy = kobject_create_and_add("eudyptula", kernel_kobj);
 
-	eudy = kobject_create_add_add("eudyptula", kernel_kobj);
-
-	if (sysfs_create_group(eudy, attrs))
+	if (sysfs_create_group(eudy, &attr))
 		return -ENOMEM;
 
 	sprintf(foo_page, "Initializing foo page...\n");
-
-	dent = debugfs_create_dir(DEBUGFS_DIR, NULL);
-	if (dent == ERR_PTR(-ENODEV)) {
-		pr_warn("Please configure kernel with CONFIG_DEBUGFS\n");
-		pr_alert("debugfs_create_dir Failed!\n");
-		return -ENODEV;
-	} 
-
-	if (!dent) {
-		pr_alert("debugfs_create_dir Failed!\n");
-		return -ENODEV;
-	} else {
-		pr_notice("Created debugfs subdir %s\n", DEBUGFS_DIR);
-		success = 1;
-	}
-
-	ret = make_endpoints();
 
 	rwlock_init(&lck);
 
@@ -140,6 +86,4 @@ int init_module(void)
 void cleanup_module(void)
 {
 	printk(KERN_DEBUG "I hate to see you leave, but...\n");
-	if (success) 
-		debugfs_remove_recursive(dent);
 }
