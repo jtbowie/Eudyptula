@@ -57,8 +57,10 @@ static ssize_t id_store(struct kobject *kobj, struct kobj_attribute *kattr, cons
 
 ssize_t jiffies_show(struct kobject *kobj, struct kobj_attribute *kattr, char *buf)
 {
-	sprintf(buf,"%ld\n",jiffies);
-	return sizeof(jiffies);
+	int ret;
+
+	ret = sprintf(buf,"%lu\n",jiffies);
+	return ret;
 }
 
 int init_module(void)
