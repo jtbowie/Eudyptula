@@ -1,6 +1,6 @@
 CFLAGS_mod_usb_dummy.o := -DDEBUG
 
-obj-m += mod_usb_dumy.o
+obj-m += mod_usb_dummy.o
 
 VER ?= $(shell uname -r)
 KDIR = /lib/modules/$(VER)/build
