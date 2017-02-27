@@ -1,5 +1,5 @@
-#ifndef MOD_HELLO_GIRLS_H
-#define MOD_HELLO_GIRLS_H
+#ifndef USB_DUMMY_H
+#define USB_DUMMY_H
 
 static int hello_hid_probe(struct usb_interface *, 
 			const struct usb_device_id *); 

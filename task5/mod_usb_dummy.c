@@ -4,17 +4,10 @@
 #include <linux/usb.h>
 #include <linux/usb/input.h>
 #include <linux/hid.h>
+#include "usb_dummy.h"
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("1be5456d23a8");
-MODULE_DESCRIPTION("Simple USB hotplug module for keyboards");
-
-static int hello_hid_probe(struct usb_interface *,
-                        const struct usb_device_id *);
-static void hello_hid_disconnect(struct usb_interface *);
-
-/* 
- * Init our module. Constructor Power! 
+/*
+ * Use USB_INTERFACE_INFO macro to populate our usb_device "object".
  */
 
 static struct usb_device_id info_table [] = {
@@ -31,7 +24,15 @@ static struct usb_driver hello_hid_drv = {
 	.id_table =	info_table,
 };
 
+/*
+ * Add ourselves to the usb device list.
+ */
+
 MODULE_DEVICE_TABLE(usb,info_table);
+
+/*
+ * These will never be called.  Sad panda is sad.
+ */
 
 static int hello_hid_probe(struct usb_interface *intf, 
 		const struct usb_device_id *id)
@@ -45,11 +46,11 @@ static void hello_hid_disconnect(struct usb_interface *intf)
 	pr_alert("Hey!@@#$ Come back here :(\n");
 }
 
-int init_module(void)
+int usb_dummy_hid_init(void)
 {
 	int ret;
 
-	printk(KERN_DEBUG "Loading dummy HID module\n"); 
+	pr_debug("Loading dummy HID(Keyboard) module\n"); 
 	ret = usb_register(&hello_hid_drv);
 	if (ret)
 		pr_warn("usb_register failed.  Error number %d", ret);
@@ -61,8 +62,15 @@ int init_module(void)
  * All good things must come to an end 
  */
 
-void cleanup_module(void)
+void usb_dummy_hid_cleanup(void)
 {
 	pr_debug("I hate to see you leave, but...\n");
 	usb_deregister(&hello_hid_drv);
 }
+
+module_init(usb_dummy_hid_init);
+module_exit(usb_dummy_hid_cleanup);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("1be5456d23a8");
+MODULE_DESCRIPTION("Simple USB hotplug module for keyboards");

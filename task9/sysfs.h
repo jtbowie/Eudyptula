@@ -17,7 +17,7 @@ static char foo_page[PAGE_SIZE+1];
 static struct kobject *eudy;
 static struct kobj_attribute foo_attr = __ATTR(foo, 0644, foo_show, foo_store);
 /*
- * Since VERIFY_OCTAL_MODE() fucking hates S_IWOTH we have to define this
+ * Since VERIFY_OCTAL_PERMISSIONS() fucking hates S_IWOTH we have to define this
  * manually.  GRRR.
  */
 
