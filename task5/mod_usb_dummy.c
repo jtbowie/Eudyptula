@@ -17,10 +17,10 @@ static struct usb_device_id info_table [] = {
 	{},
 };
 
-static struct usb_driver hello_hid_drv = {
-	.name =		"hello_hid",
-	.probe =	hello_hid_probe,
-	.disconnect = 	hello_hid_disconnect,
+static struct usb_driver usb_dummy_hid_drv = {
+	.name =		"usb_dummy_hid",
+	.probe =	usb_dummy_hid_probe,
+	.disconnect = 	usb_dummy_hid_disconnect,
 	.id_table =	info_table,
 };
 
@@ -34,14 +34,14 @@ MODULE_DEVICE_TABLE(usb,info_table);
  * These will never be called.  Sad panda is sad.
  */
 
-static int hello_hid_probe(struct usb_interface *intf, 
+static int usb_dummy_hid_probe(struct usb_interface *intf, 
 		const struct usb_device_id *id)
 {
-	pr_alert("Found a Keyboard!  Hello world!\n");
+	pr_alert("Found a Keyboard!  Hello World!\n");
 	return 0;
 }
 
-static void hello_hid_disconnect(struct usb_interface *intf)
+static void usb_dummy_hid_disconnect(struct usb_interface *intf)
 {
 	pr_alert("Hey!@@#$ Come back here :(\n");
 }
@@ -51,7 +51,7 @@ int usb_dummy_hid_init(void)
 	int ret;
 
 	pr_debug("Loading dummy HID(Keyboard) module\n"); 
-	ret = usb_register(&hello_hid_drv);
+	ret = usb_register(&usb_dummy_hid_drv);
 	if (ret)
 		pr_warn("usb_register failed.  Error number %d", ret);
 
@@ -65,7 +65,7 @@ int usb_dummy_hid_init(void)
 void usb_dummy_hid_cleanup(void)
 {
 	pr_debug("I hate to see you leave, but...\n");
-	usb_deregister(&hello_hid_drv);
+	usb_deregister(&usb_dummy_hid_drv);
 }
 
 module_init(usb_dummy_hid_init);
