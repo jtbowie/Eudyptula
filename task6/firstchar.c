@@ -3,6 +3,7 @@
 #include <linux/fs.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/string.h>
 #include <asm/uaccess.h>
 #include "firstchar.h"
 
@@ -42,6 +43,9 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 				size_t len, loff_t *offset)
 {
 	char buffer[MAX_ID_LEN];
+	char *ptr;
+
+	memset(&buffer, 0, MAX_ID_LEN);
 
 	if (len > MAX_ID_LEN) {
 		pr_notice("Buffer overflow attempted, len = %ld\n", len);
@@ -53,9 +57,11 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 		return -EINVAL;
 	}
 
-	buffer[MAX_ID_LEN-1] = '\x00';
-
 	if (strcmp(buffer, my_id)) {
+		ptr = strchr(buffer, '\n');
+		if (ptr)
+			*ptr = '\x00';
+
 		pr_notice("Got wrong id value %s\n", buffer);
 		return -EINVAL;
 	}

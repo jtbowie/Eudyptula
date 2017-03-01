@@ -1,0 +1,17 @@
+j@gnshost:~/next/linux$ sudo tail -n 0 -f /var/log/syslog
+[sudo] password for j: 
+Mar  1 11:28:09 gnshost kernel: [295094.296936] Loaded eudyptula successfully!
+Mar  1 11:28:09 gnshost kernel: [295094.296937] eudyptula got minor number 55
+Mar  1 11:28:23 gnshost kernel: [295107.656656] Got wrong id value wrong_id
+Mar  1 11:30:55 gnshost kernel: [295259.721077] I hate to see you leave, but...
+>8----------------------------8<
+j@gnshost:~/Eudyptula/task6$ sudo insmod firstchar.ko
+j@gnshost:~/Eudyptula/task6$ sudo cat /dev/eudyptula 
+1be5456d23a8
+j@gnshost:~/Eudyptula/task6$ sudo sh -c 'echo "1be5456d23a8" > /dev/eudyptula'
+j@gnshost:~/Eudyptula/task6$ sudo sh -c 'echo "wrong_id" > /dev/eudyptula'
+sh: echo: I/O error
+j@gnshost:~/Eudyptula/task6$ sudo sh -c 'cat /dev/eudyptula > /dev/eudyptula'
+cat: /dev/eudyptula: Device or resource busy
+j@gnshost:~/Eudyptula/task6$ sudo rmmod firstchar 
+j@gnshost:~/Eudyptula/task6$ 
