@@ -1,4 +1,4 @@
-obj-m += mod_firstchar.o
+obj-m += firstchar.o
 
 VER ?= $(shell uname -r)
 KDIR = /lib/modules/$(VER)/build
