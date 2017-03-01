@@ -1,5 +1,3 @@
-CONFIG_MODULE_SIG=n
-
 obj-m += mod_sysfs.o
 
 VER ?= $(shell uname -r)

@@ -1,7 +1,6 @@
-CONFIG_MODULE_SIG=n
+obj-m += mod_firstchar.o
 
-obj-m += mod_hello_girls.o
-
+CFLAGS_mod_firstchar,o := -DDEBUG
 VER ?= $(shell uname -r)
 KDIR = /lib/modules/$(VER)/build
 
