@@ -1,5 +1,5 @@
-#include <linux/module.h> 
-#include <linux/kernel.h> 
+#include <linux/module.h>
+#include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/usb.h>
 #include <linux/usb/input.h>
@@ -9,7 +9,7 @@
  * Use USB_INTERFACE_INFO macro to populate our usb_device "object".
  */
 
-static struct usb_device_id info_table [] = {
+static struct usb_device_id info_table[] = {
 	{USB_INTERFACE_INFO
 	  (USB_INTERFACE_CLASS_HID, USB_INTERFACE_SUBCLASS_BOOT,
 	   USB_INTERFACE_PROTOCOL_KEYBOARD)},
@@ -20,7 +20,7 @@ static struct usb_device_id info_table [] = {
  * Add ourselves to the usb device list.
  */
 
-MODULE_DEVICE_TABLE(usb,info_table);
+MODULE_DEVICE_TABLE(usb, info_table);
 
 /*
  * These will never be called.  Sad panda is sad.
@@ -28,13 +28,13 @@ MODULE_DEVICE_TABLE(usb,info_table);
 
 int usb_dummy_hid_init(void)
 {
-	pr_debug("Loading dummy HID(Keyboard) module\n"); 
+	pr_debug("Loading dummy HID(Keyboard) module\n");
 
 	return 0;
 }
 
-/* 
- * All good things must come to an end 
+/*
+ * All good things must come to an end
  */
 
 void usb_dummy_hid_cleanup(void)
