@@ -1,13 +1,13 @@
-Feb 27 01:01:52 gnshost kernel: [84718.178112] usb 7-3: USB disconnect, device number 5
-Feb 27 01:01:52 gnshost acpid: input device has been disconnected, fd 12
-Feb 27 01:01:53 gnshost kernel: [84719.247747] usb 7-3: new low-speed USB device number 6 using ohci-pci
-Feb 27 01:01:53 gnshost kernel: [84719.438096] usb 7-3: New USB device found, idVendor=04b3, idProduct=3025
-Feb 27 01:01:53 gnshost kernel: [84719.438098] usb 7-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-Feb 27 01:01:53 gnshost kernel: [84719.438099] usb 7-3: Product: USB NetVista Full Width Keyboard.
-Feb 27 01:01:53 gnshost kernel: [84719.438099] usb 7-3: Manufacturer: LITE-ON Technology
-Feb 27 01:01:53 gnshost kernel: [84719.449388] input: LITE-ON Technology USB NetVista Full Width Keyboard. as /devices/pci0000:00/0000:00:16.0/usb7/7-3/7-3:1.0/0003:04B3:3025.0008/input/input22
-Feb 27 01:01:53 gnshost mtp-probe: checking bus 7, device 6: "/sys/devices/pci0000:00/0000:00:16.0/usb7/7-3"
-Feb 27 01:01:53 gnshost mtp-probe: bus: 7, device: 6 was not an MTP device
-Feb 27 01:01:53 gnshost kernel: [84719.507983] hid-generic 0003:04B3:3025.0008: input,hidraw0: USB HID v1.10 Keyboard [LITE-ON Technology USB NetVista Full Width Keyboard.] on usb-0000:00:16.0-3/input0
-Feb 27 01:01:53 gnshost kernel: [84719.518458] Loading dummy HID(Keyboard) module
-Feb 27 01:01:53 gnshost kernel: [84719.518488] usbcore: registered new interface driver usb_dummy_hid
+j@gnshost:~/fuzz$ sudo tail -n 0 -f /var/log/syslog
+Feb 28 22:11:53 gnshost kernel: [247317.780405] usb 7-3: USB disconnect, device number 10
+Feb 28 22:11:53 gnshost acpid: input device has been disconnected, fd 12
+Feb 28 22:11:54 gnshost kernel: [247319.398155] usb 7-3: new low-speed USB device number 11 using ohci-pci
+Feb 28 22:11:54 gnshost kernel: [247319.588358] usb 7-3: New USB device found, idVendor=04b3, idProduct=3025
+Feb 28 22:11:54 gnshost kernel: [247319.588359] usb 7-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Feb 28 22:11:54 gnshost kernel: [247319.588360] usb 7-3: Product: USB NetVista Full Width Keyboard.
+Feb 28 22:11:54 gnshost kernel: [247319.588361] usb 7-3: Manufacturer: LITE-ON Technology
+Feb 28 22:11:54 gnshost kernel: [247319.599680] input: LITE-ON Technology USB NetVista Full Width Keyboard. as /devices/pci0000:00/0000:00:16.0/usb7/7-3/7-3:1.0/0003:04B3:3025.000F/input/input29
+Feb 28 22:11:54 gnshost mtp-probe: checking bus 7, device 11: "/sys/devices/pci0000:00/0000:00:16.0/usb7/7-3"
+Feb 28 22:11:54 gnshost mtp-probe: bus: 7, device: 11 was not an MTP device
+Feb 28 22:11:54 gnshost kernel: [247319.658427] hid-generic 0003:04B3:3025.000F: input,hidraw0: USB HID v1.10 Keyboard [LITE-ON Technology USB NetVista Full Width Keyboard.] on usb-0000:00:16.0-3/input0
+Feb 28 22:11:54 gnshost kernel: [247319.668828] Loading dummy HID(Keyboard) module
