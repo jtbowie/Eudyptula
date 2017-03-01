@@ -6,23 +6,12 @@
 #include <asm/uaccess.h>
 #include "firstchar.h"
 
-#define MY_DEV_NAME "eudyptula"
-#define MAX_OUT_LEN 0xFF
-
-static int occupied;
-static struct miscdevice firstchar_dev;
-static char output[MAX_OUT_LEN];
-
 static int firstchar_open(struct inode *inode, struct file *filp)
 {
-	static int counter;
-
 	if (occupied > 0)
 		return -EBUSY;
 
-	sprintf(output, "This device has been opened %d times!\n", counter++);
 	occupied++;
-
 	return 0;
 }
 
@@ -34,12 +23,14 @@ static ssize_t firstchar_read(struct file *filp, char __user *buffer,
  * Never write more than strlen(output) bytes.  If len < strlen(output)
  * write only len bytes.
  */
-	size_t my_len = len < strlen(output) ? len : strlen(output);
+	size_t my_len = GET_LEN(len, my_id);
 
-	if (*offset > 0)
+	if (*offset > 0) {
+		*offset = 0;
 		return 0;
+	}
 
-	if (copy_to_user(buffer, (char *)&output, my_len))
+	if (copy_to_user(buffer, &my_id, my_len))
 		return -EINVAL;
 
 	*offset += my_len;
@@ -50,8 +41,26 @@ static ssize_t firstchar_read(struct file *filp, char __user *buffer,
 static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 				size_t len, loff_t *offset)
 {
-	pr_alert("Unauthorized write to /dev/%s\n", MY_DEV_NAME);
-	return -EINVAL;
+	char buffer[MAX_ID_LEN];
+
+	if (len > MAX_ID_LEN) {
+		pr_notice("Buffer overflow attempted, len = %ld\n", len);
+		return -EINVAL;
+	}
+
+	if (copy_from_user(&buffer, usr, len)) {
+		pr_notice("Copy from user failed.\n");
+		return -EINVAL;
+	}
+
+	buffer[MAX_ID_LEN-1] = '\x00';
+
+	if (strcmp(buffer, my_id)) {
+		pr_notice("Got wrong id value %s\n", buffer);
+		return -EINVAL;
+	}
+
+	return len;
 }
 
 static int firstchar_release(struct inode *inode, struct file *filp)
