@@ -7,11 +7,11 @@
 #include "firstchar.h"
 
 #define MY_DEV_NAME "eudyptula"
-#define MAX_MSG_LEN 0xFF
+#define MAX_OUT_LEN 0xFF
 
 static int occupied;
 static struct miscdevice firstchar_dev;
-static char output[MAX_MSG_LEN];
+static char output[MAX_OUT_LEN];
 
 static int firstchar_open(struct inode *inode, struct file *filp)
 {
@@ -22,7 +22,7 @@ static int firstchar_open(struct inode *inode, struct file *filp)
 
 	sprintf(output, "This device has been opened %d times!\n", counter++);
 	occupied++;
-	try_module_get(THIS_MODULE);
+
 	return 0;
 }
 
@@ -57,12 +57,12 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 static int firstchar_release(struct inode *inode, struct file *filp)
 {
 	occupied--;
-	module_put(THIS_MODULE);
 
 	return 0;
 }
 
 static const struct file_operations fops = {
+	.owner = THIS_MODULE,
 	.read = firstchar_read,
 	.open = firstchar_open,
 	.write = firstchar_write,
