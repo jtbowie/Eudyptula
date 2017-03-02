@@ -1,0 +1,13 @@
+Mar  2 13:35:42 gnshost kernel: [83187.067800] id 1 = Alice
+Mar  2 13:35:42 gnshost kernel: [83187.067800] id 2 = Bob
+Mar  2 13:35:42 gnshost kernel: [83187.067801] id 3 = Dave
+Mar  2 13:35:42 gnshost kernel: [83187.067801] id 4 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067802] id 5 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067802] id 6 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067803] id 7 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067803] id 8 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067803] id 9 not found!
+Mar  2 13:35:42 gnshost kernel: [83187.067804] id 10 = Gena
+j@gnshost:~/Eudyptula/task13$ sudo grep eud /proc/slabinfo 
+eudyptula              0     56     72   56    1 : tunables    0    0    0 : slabdata      1      1      0
+j@gnshost:~/Eudyptula/task13$ 
