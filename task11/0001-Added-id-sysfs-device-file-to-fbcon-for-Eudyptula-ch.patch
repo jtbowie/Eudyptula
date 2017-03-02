@@ -1,0 +1,56 @@
+From d1e4d2ec142d86c7731b06e227acf0e7fb52021f Mon Sep 17 00:00:00 2001
+From: Jonathan Bowie <eudjtb@gmail.com>
+Date: Wed, 1 Mar 2017 13:50:47 -0800
+Subject: [PATCH] Added id sysfs device file to fbcon for Eudyptula challenge.
+
+Signed-off-by: Jonathan Bowie <eudjtb@gmail.com>
+---
+ drivers/video/console/fbcon.c | 17 +++++++++++++++++
+ drivers/video/console/fbcon.h |  2 ++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/drivers/video/console/fbcon.c b/drivers/video/console/fbcon.c
+index a44f562..640e063 100644
+--- a/drivers/video/console/fbcon.c
++++ b/drivers/video/console/fbcon.c
+@@ -3490,7 +3490,24 @@ static ssize_t store_cursor_blink(struct device *device,
+ 	return count;
+ }
+ 
++static ssize_t store_id(struct device *device,
++			struct device_attribute *attr,
++			const char *buf, size_t count)
++{
++	if (strcmp(buf, EUD_ID))
++		return -EINVAL;
++
++	return EUD_ID_LEN;
++}
++
++static ssize_t show_id(struct device *device,
++		       struct device_attribute *attr, char *buf)
++{
++	return snprintf(buf, EUD_ID_LEN, "%s", EUD_ID);
++}
++
+ static struct device_attribute device_attrs[] = {
++	__ATTR(id, 0644, show_id, store_id),
+ 	__ATTR(rotate, S_IRUGO|S_IWUSR, show_rotate, store_rotate),
+ 	__ATTR(rotate_all, S_IWUSR, NULL, store_rotate_all),
+ 	__ATTR(cursor_blink, S_IRUGO|S_IWUSR, show_cursor_blink,
+diff --git a/drivers/video/console/fbcon.h b/drivers/video/console/fbcon.h
+index 7aaa4ea..e73e863 100644
+--- a/drivers/video/console/fbcon.h
++++ b/drivers/video/console/fbcon.h
+@@ -19,6 +19,8 @@
+ 
+ #define FBCON_FLAGS_INIT         1
+ #define FBCON_FLAGS_CURSOR_TIMER 2
++#define EUD_ID "1be5456d23a8\n"
++#define EUD_ID_LEN 13
+ 
+    /*
+     *    This is the interface between the low-level console driver and the
+-- 
+2.7.4
+
