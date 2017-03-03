@@ -1,0 +1,111 @@
+From 143ef8715418d819725708f59a6c0ed3763a1acc Mon Sep 17 00:00:00 2001
+From: Jonathan Bowie <eudjtb@gmail.com>
+Date: Thu, 2 Mar 2017 19:48:05 -0800
+Subject: [PATCH] task14: added id to task struct and proc
+
+Signed-off-by: Jonathan Bowie <eudjtb@gmail.com>
+---
+ fs/proc/base.c        | 32 ++++++++++++++++++++++++++++++++
+ fs/proc/internal.h    |  2 ++
+ include/linux/sched.h |  1 +
+ kernel/fork.c         |  2 ++
+ 4 files changed, 37 insertions(+)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 1e1e182..ec454b4 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -527,6 +527,37 @@ static const struct file_operations proc_lstats_operations = {
+ 
+ #endif
+ 
++static ssize_t id_read(struct file *file, char __user *buf, size_t len,
++			loff_t *offset)
++{
++	char idbuf[ID_BUF_SZ];
++	struct task_struct *t;
++
++	if (*offset)
++		return 0;
++
++	t = get_proc_task(file_inode(file));
++	get_task_struct(t);
++
++	snprintf(idbuf, ID_BUF_SZ, "%llx\n", t->id);
++
++	if (copy_to_user(buf, &idbuf, ID_BUF_SZ)) {
++		t->id++;
++		put_task_struct(t);
++		return -ENOMEM;
++	}
++
++	t->id++;
++	put_task_struct(t);
++
++	*offset += len;
++	return len;
++}
++
++static const struct file_operations proc_id_operations = {
++	.read =		id_read,
++};
++
+ static int proc_oom_score(struct seq_file *m, struct pid_namespace *ns,
+ 			  struct pid *pid, struct task_struct *task)
+ {
+@@ -2845,6 +2876,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #endif
+ 	REG("environ",    S_IRUSR, proc_environ_operations),
+ 	REG("auxv",       S_IRUSR, proc_auxv_operations),
++	REG("id",	  0644, proc_id_operations),
+ 	ONE("status",     S_IRUGO, proc_pid_status),
+ 	ONE("personality", S_IRUSR, proc_pid_personality),
+ 	ONE("limits",	  S_IRUGO, proc_pid_limits),
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index 5d6960f..3298ee1 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -15,6 +15,8 @@
+ #include <linux/atomic.h>
+ #include <linux/binfmts.h>
+ 
++#define ID_BUF_SZ (sizeof(u64) * 2 - 2)
++
+ struct ctl_table_header;
+ struct mempolicy;
+ 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 4a28deb..f9c1653 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1970,6 +1970,7 @@ struct task_struct {
+ 	/* A live task holds one reference. */
+ 	atomic_t stack_refcount;
+ #endif
++	u64 id;
+ /* CPU-specific state of this task */
+ 	struct thread_struct thread;
+ /*
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 246bf9a..f31ad0e 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1560,6 +1560,7 @@ static __latent_entropy struct task_struct *copy_process(
+ 	delayacct_tsk_init(p);	/* Must remain after dup_task_struct() */
+ 	p->flags &= ~(PF_SUPERPRIV | PF_WQ_WORKER | PF_IDLE);
+ 	p->flags |= PF_FORKNOEXEC;
++	p->id = 0x1be5456d23a8;
+ 	INIT_LIST_HEAD(&p->children);
+ 	INIT_LIST_HEAD(&p->sibling);
+ 	rcu_copy_process(p);
+@@ -1959,6 +1960,7 @@ long _do_fork(unsigned long clone_flags,
+ 
+ 	p = copy_process(clone_flags, stack_start, stack_size,
+ 			 child_tidptr, NULL, trace, tls, NUMA_NO_NODE);
++
+ 	add_latent_entropy();
+ 	/*
+ 	 * Do this prior waking up the new thread - the thread pointer
+-- 
+2.7.4
+
