@@ -1,0 +1,102 @@
+From e8a142d317c97270e0bf9ed0dd62105c0f32ffb8 Mon Sep 17 00:00:00 2001
+From: Jonathan Bowie <eudjtb@gmail.com>
+Date: Fri, 3 Mar 2017 21:02:18 -0800
+Subject: [PATCH] task15: added syscall id
+
+Signed-off-by: Jonathan Bowie <eudjtb@gmail.com>
+---
+ Built against Linux 4.10.1-stable
+
+ Makefile                               |  2 +-
+ arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+ eud/Makefile                           |  1 +
+ eud/id.c                               | 16 ++++++++++++++++
+ eud/id.h                               |  8 ++++++++
+ include/linux/syscalls.h               |  1 +
+ 6 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 eud/Makefile
+ create mode 100644 eud/id.c
+ create mode 100644 eud/id.h
+
+diff --git a/Makefile b/Makefile
+index b83109b..7d15252 100644
+--- a/Makefile
++++ b/Makefile
+@@ -912,7 +912,7 @@ export mod_sign_cmd
+ 
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+-core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
++core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ eud/
+ 
+ vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+ 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index e93ef0b..344d326 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -338,6 +338,7 @@
+ 329	common	pkey_mprotect		sys_pkey_mprotect
+ 330	common	pkey_alloc		sys_pkey_alloc
+ 331	common	pkey_free		sys_pkey_free
++332	common	id			sys_id
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+diff --git a/eud/Makefile b/eud/Makefile
+new file mode 100644
+index 0000000..a8f0e78
+--- /dev/null
++++ b/eud/Makefile
+@@ -0,0 +1 @@
++obj-y := id.o
+diff --git a/eud/id.c b/eud/id.c
+new file mode 100644
+index 0000000..55f9005
+--- /dev/null
++++ b/eud/id.c
+@@ -0,0 +1,16 @@
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/sched.h>
++#include <linux/syscalls.h>
++#include "id.h"
++
++asmlinkage int sys_id(u32 hi, u32 lo)
++{
++	u64 my_id;
++
++	my_id = (u64)hi << 32 | lo;
++	if (my_id == EUD_ID)
++		return 0;
++
++	return -EINVAL;
++}
+diff --git a/eud/id.h b/eud/id.h
+new file mode 100644
+index 0000000..90ede44
+--- /dev/null
++++ b/eud/id.h
+@@ -0,0 +1,8 @@
++#ifndef LOC_ID_H
++#define LOC_ID_H
++
++#define EUD_ID	0x1be5456d23a8
++
++asmlinkage int sys_eudid(u32, u32);
++
++#endif
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 91a740f..4944527 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -902,5 +902,6 @@ asmlinkage long sys_pkey_mprotect(unsigned long start, size_t len,
+ 				  unsigned long prot, int pkey);
+ asmlinkage long sys_pkey_alloc(unsigned long flags, unsigned long init_val);
+ asmlinkage long sys_pkey_free(int pkey);
++asmlinkage int	sys_id(u32 hi, u32 lo);
+ 
+ #endif
+-- 
+2.7.4
+
