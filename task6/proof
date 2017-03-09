@@ -1,7 +1,8 @@
-root@gnshost:~# tail -n 0 -f /var/log/syslog | grep kernel
-Mar  8 22:14:58 gnshost kernel: [137106.113106] Loaded eudyptula successfully!
-Mar  8 22:14:58 gnshost kernel: [137106.113109] eudyptula got minor number 50
-Mar  8 22:15:20 gnshost kernel: [137127.660316] Got wrong id value wrong_id
+j@gnshost:~/Eudyptula/task6$ sudo tail -n 19 -f /var/log/syslog | grep kernel
+Mar  9 07:02:04 gnshost kernel: [168730.988429] Loaded eudyptula successfully!
+Mar  9 07:02:04 gnshost kernel: [168730.988432] eudyptula got minor number 50
+Mar  9 07:02:54 gnshost kernel: [168780.554280] Got wrong id value wrong_id
+Mar  9 07:04:58 gnshost kernel: [168904.770682] I hate to see you leave, but...
 >8---------------------------------------8<
 j@gnshost:~/Eudyptula/task6$ make
 make -C /lib/modules/4.4.0-64-generic/build M=/home/j/Eudyptula/task6 modules
@@ -19,5 +20,4 @@ j@gnshost:~/Eudyptula/task6$ sudo sh -c 'echo "1be5456d23a8" > /dev/eudyptula'
 j@gnshost:~/Eudyptula/task6$ sudo sh -c 'echo "wrong_id" > /dev/eudyptula'
 sh: echo: I/O error
 j@gnshost:~/Eudyptula/task6$ sudo sh -c 'cat /dev/eudyptula > /dev/eudyptula'
-cat: /dev/eudyptula: Device or resource busy
 j@gnshost:~/Eudyptula/task6$ 
