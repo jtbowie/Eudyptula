@@ -19,24 +19,8 @@ static int firstchar_open(struct inode *inode, struct file *filp)
 static ssize_t firstchar_read(struct file *filp, char __user *buffer,
 				size_t len, loff_t *offset)
 {
-
-/*
- * Never write more than strlen(output) bytes.  If len < strlen(output)
- * write only len bytes.
- */
-	size_t my_len = GET_LEN(len, my_id);
-
-	if (*offset > 0) {
-		*offset = 0;
-		return 0;
-	}
-
-	if (copy_to_user(buffer, &my_id, my_len))
-		return -EINVAL;
-
-	*offset += my_len;
-
-	return my_len;
+	return simple_read_from_buffer(buffer, MAX_ID_LEN, offset, &my_id,
+					MAX_ID_LEN);
 }
 
 static ssize_t firstchar_write(struct file *filp, const char __user *usr,

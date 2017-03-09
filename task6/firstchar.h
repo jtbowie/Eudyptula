@@ -3,7 +3,6 @@
 
 #define MY_DEV_NAME "eudyptula"
 #define MAX_ID_LEN 14
-#define GET_LEN(x, y)    (x < strlen(y) ? x : strlen(y))
 
 static int occupied;
 static struct miscdevice firstchar_dev;
