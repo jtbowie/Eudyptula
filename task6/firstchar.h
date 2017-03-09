@@ -4,7 +4,6 @@
 #define MY_DEV_NAME "eudyptula"
 #define MAX_ID_LEN 14
 
-static int occupied;
 static struct miscdevice firstchar_dev;
 static char my_id[MAX_ID_LEN] = "1be5456d23a8\n";
 

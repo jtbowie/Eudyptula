@@ -9,10 +9,6 @@
 
 static int firstchar_open(struct inode *inode, struct file *filp)
 {
-	if (occupied > 0)
-		return -EBUSY;
-
-	occupied++;
 	return 0;
 }
 
@@ -55,8 +51,6 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 
 static int firstchar_release(struct inode *inode, struct file *filp)
 {
-	occupied--;
-
 	return 0;
 }
 
