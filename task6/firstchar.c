@@ -7,11 +7,6 @@
 #include <asm/uaccess.h>
 #include "firstchar.h"
 
-static int firstchar_open(struct inode *inode, struct file *filp)
-{
-	return 0;
-}
-
 static ssize_t firstchar_read(struct file *filp, char __user *buffer,
 				size_t len, loff_t *offset)
 {
@@ -49,17 +44,10 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 	return len;
 }
 
-static int firstchar_release(struct inode *inode, struct file *filp)
-{
-	return 0;
-}
-
 static const struct file_operations fops = {
 	.owner = THIS_MODULE,
 	.read = firstchar_read,
-	.open = firstchar_open,
 	.write = firstchar_write,
-	.release = firstchar_release
 };
 
 static int __init firstchar_init(void)
