@@ -19,18 +19,12 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 {
 	char buffer[MAX_ID_LEN];
 	char *ptr;
+	ssize_t ret;
 
 	memset(&buffer, 0, MAX_ID_LEN);
 
-	if (len > MAX_ID_LEN) {
-		pr_notice("Buffer overflow attempted, len = %ld\n", len);
-		return -EINVAL;
-	}
-
-	if (copy_from_user(&buffer, usr, len)) {
-		pr_notice("Copy from user failed.\n");
-		return -EINVAL;
-	}
+	ret = simple_write_to_buffer(&buffer, MAX_ID_LEN, offset, usr,
+					MAX_ID_LEN);
 
 	if (strcmp(buffer, my_id)) {
 		ptr = strchr(buffer, '\n');
@@ -41,11 +35,10 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 		return -EINVAL;
 	}
 
-	return len;
+	return ret;
 }
 
 static const struct file_operations fops = {
-	.owner = THIS_MODULE,
 	.read = firstchar_read,
 	.write = firstchar_write,
 };
