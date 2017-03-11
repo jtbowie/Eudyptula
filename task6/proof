@@ -1,8 +1,8 @@
-j@gnshost:~/Eudyptula/task6$ sudo tail -n 19 -f /var/log/syslog | grep kernel
-Mar  9 07:02:04 gnshost kernel: [168730.988429] Loaded eudyptula successfully!
-Mar  9 07:02:04 gnshost kernel: [168730.988432] eudyptula got minor number 50
-Mar  9 07:02:54 gnshost kernel: [168780.554280] Got wrong id value wrong_id
-Mar  9 07:04:58 gnshost kernel: [168904.770682] I hate to see you leave, but...
+j@gnshost:~/Eudyptula/task6$ tail -n 0 -f /var/log/syslog | grep kernel
+Mar 11 02:49:40 gnshost kernel: [326378.498145] Loaded eudyptula successfully!
+Mar 11 02:49:40 gnshost kernel: [326378.498147] eudyptula got minor number 50
+Mar 11 02:50:58 gnshost kernel: [326456.563449] Got wrong id value wrong_id
+Mar 11 02:51:07 gnshost kernel: [326465.091430] I hate to see you leave, but...
 >8---------------------------------------8<
 j@gnshost:~/Eudyptula/task6$ make
 make -C /lib/modules/4.4.0-64-generic/build M=/home/j/Eudyptula/task6 modules

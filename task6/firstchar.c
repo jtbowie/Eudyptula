@@ -27,9 +27,11 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 					MAX_ID_LEN);
 
 	if (strcmp(buffer, my_id)) {
-		ptr = strchr(buffer, '\n');
+		ptr = memchr(buffer, '\n', MAX_ID_LEN);
 		if (ptr)
 			*ptr = '\x00';
+		else
+			buffer[MAX_ID_LEN-1] = '\x00';
 
 		pr_notice("Got wrong id value %s\n", buffer);
 		return -EINVAL;
@@ -73,6 +75,6 @@ void cleanup_module(void)
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Jonathan Bowie");
 MODULE_DESCRIPTION("1be5456d23a8 misc_chrdev");
-MODULE_VERSION("0.1");
+MODULE_VERSION("1.0");
 
 module_init(firstchar_init);
