@@ -3,15 +3,22 @@
 #include <linux/fs.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/sched.h>
+#include <linux/kthread.h>
 #include <linux/string.h>
 #include <asm/uaccess.h>
 #include "firstchar.h"
 
-static ssize_t firstchar_read(struct file *filp, char __user *buffer,
-				size_t len, loff_t *offset)
+DECLARE_WAIT_QUEUE_HEAD(wee_wait);
+u32 flag;
+
+static int my_thread(void *data)
 {
-	return simple_read_from_buffer(buffer, MAX_ID_LEN, offset, &my_id,
-					MAX_ID_LEN);
+	memcpy(&flag, data, sizeof(u32));
+
+	if (wait_event_interruptible(wee_wait, flag))
+		return -EINVAL;
+	return 0;
 }
 
 static ssize_t firstchar_write(struct file *filp, const char __user *usr,
@@ -24,16 +31,17 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 	memset(&buffer, 0, MAX_ID_LEN);
 
 	ret = simple_write_to_buffer(&buffer, MAX_ID_LEN, offset, usr,
-					MAX_ID_LEN);
+					len);
 
 	if (strcmp(buffer, my_id)) {
+		pr_notice("Expected: %s", my_id);
 		ptr = memchr(buffer, '\n', MAX_ID_LEN);
 		if (ptr)
 			*ptr = '\x00';
 		else
 			buffer[MAX_ID_LEN-1] = '\x00';
 
-		pr_notice("Got wrong id value %s\n", buffer);
+		pr_notice("Got wrong id value %s!\n", buffer);
 		return -EINVAL;
 	}
 
@@ -41,7 +49,6 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 }
 
 static const struct file_operations fops = {
-	.read = firstchar_read,
 	.write = firstchar_write,
 };
 
@@ -49,11 +56,13 @@ static int __init firstchar_init(void)
 {
 	static int ret;
 
+	my_id[MAX_ID_LEN-1] = '\x00';
 	firstchar_dev.minor = MISC_DYNAMIC_MINOR;
 	firstchar_dev.name = MY_DEV_NAME;
 	firstchar_dev.fops = &fops;
-	firstchar_dev.mode = 0664;
+	firstchar_dev.mode = 0666;
 
+	task = kthread_create(&my_thread, NULL, "eudyptula");
 	ret = misc_register(&firstchar_dev);
 	if (ret)
 		return ret;
@@ -71,6 +80,7 @@ void cleanup_module(void)
 {
 	pr_notice("I hate to see you leave, but...\n");
 	misc_deregister(&firstchar_dev);
+	kthread_stop(task);
 }
 
 MODULE_LICENSE("GPL");

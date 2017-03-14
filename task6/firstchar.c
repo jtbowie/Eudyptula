@@ -24,7 +24,12 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 	memset(&buffer, 0, MAX_ID_LEN);
 
 	ret = simple_write_to_buffer(&buffer, MAX_ID_LEN, offset, usr,
-					MAX_ID_LEN);
+					len);
+	if (ret < 0) {
+		pr_notice("simple_write_to_buffer_failed: %ld\n",
+			PTR_ERR(&ret));
+		return ret;
+	}
 
 	if (strcmp(buffer, my_id)) {
 		ptr = memchr(buffer, '\n', MAX_ID_LEN);
