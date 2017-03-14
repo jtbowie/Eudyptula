@@ -10,8 +10,16 @@
 static ssize_t firstchar_read(struct file *filp, char __user *buffer,
 				size_t len, loff_t *offset)
 {
-	return simple_read_from_buffer(buffer, MAX_ID_LEN, offset, &my_id,
+	ssize_t ret;
+
+	ret = simple_read_from_buffer(buffer, MAX_ID_LEN, offset, &my_id,
 					MAX_ID_LEN);
+
+	if (ret < 0)
+		pr_notice("simple_read_from_buffer failed: %ld\n",
+			PTR_ERR(&ret));
+
+	return ret;
 }
 
 static ssize_t firstchar_write(struct file *filp, const char __user *usr,
