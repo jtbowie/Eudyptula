@@ -18,6 +18,7 @@ static int my_thread(void *data)
 
 	if (wait_event_interruptible(wee_wait, flag))
 		return -EINVAL;
+
 	return 0;
 }
 
@@ -32,6 +33,12 @@ static ssize_t firstchar_write(struct file *filp, const char __user *usr,
 
 	ret = simple_write_to_buffer(&buffer, MAX_ID_LEN, offset, usr,
 					len);
+
+	if (ret < 0) {
+		pr_notice("simple_write_to_buffer failed: %s\n",
+				(char *)ERR_PTR(ret));
+		return ret;
+	}
 
 	if (strcmp(buffer, my_id)) {
 		pr_notice("Expected: %s", my_id);
