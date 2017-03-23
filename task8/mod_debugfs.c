@@ -76,10 +76,6 @@ int make_endpoints(void)
 int init_module(void)
 {
 	static int ret;
-	char *ptr = (char *)&foo_page;
-
-	memset(ptr, '\x00', PAGE_SIZE+1);
-	sprintf(foo_page, "Initializing foo page...\n");
 
 	dent = debugfs_create_dir(DEBUGFS_DIR, NULL);
 	if (dent == ERR_PTR(-ENODEV)) {
@@ -97,8 +93,6 @@ int init_module(void)
 	success = 1;
 
 	ret = make_endpoints();
-
-	rwlock_init(&lck);
 
 	if (ret) {
 		pr_alert("Making endpoints failed!\n");
