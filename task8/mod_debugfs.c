@@ -70,10 +70,6 @@ int make_endpoints(void)
 	if (!tmp)
 		return -EINVAL;
 
-	tmp = debugsfs_create_u32("jiffies", 0644, dent, (u32 *)&jiffies);
-	if (!tmp)
-		return -EINVAL;
-
 	return 0;
 }
 
