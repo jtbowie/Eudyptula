@@ -1,0 +1,30 @@
+From 94caf991eb667b93214e36a8a08f69060192e886 Mon Sep 17 00:00:00 2001
+From: Jonathan Bowie <eudjtb@gmail.com>
+Date: Thu, 23 Mar 2017 14:43:52 -0700
+Subject: [PATCH 1/2] task8: added stage1
+
+added: jiffes functionality
+Signed-off-by: <eudjtb@gmail.com>
+
+---
+ task8/mod_debugfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/task8/mod_debugfs.c b/task8/mod_debugfs.c
+index c98c087..61237af 100644
+--- a/task8/mod_debugfs.c
++++ b/task8/mod_debugfs.c
+@@ -70,6 +70,10 @@ int make_endpoints(void)
+ 	if (!tmp)
+ 		return -EINVAL;
+ 
++	tmp = debugsfs_create_u32("jiffies", 0644, dent, (u32 *)&jiffies);
++	if (!tmp)
++		return -EINVAL;
++
+ 	return 0;
+ }
+ 
+-- 
+2.7.4
+
