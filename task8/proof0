@@ -1,12 +1,38 @@
+j@gnshost:~/Eudyptula/task8$ make
+make -C /lib/modules/4.4.0-74-generic/build M=/home/j/Eudyptula/task8 modules
+make[1]: Entering directory '/usr/src/linux-headers-4.4.0-74-generic'
+CC [M]  /home/j/Eudyptula/task8/mod_debugfs.o
+ Building modules, stage 2.
+   MODPOST 1 modules
+     CC      /home/j/Eudyptula/task8/mod_debugfs.mod.o
+     LD [M]  /home/j/Eudyptula/task8/mod_debugfs.ko
+make[1]: Leaving directory '/usr/src/linux-headers-4.4.0-74-generic'
 j@gnshost:~/Eudyptula/task8$ sudo insmod mod_debugfs.ko
-j@gnshost:~/Eudyptula/task8$ sudo tail -2 /var/log/syslog
-Mar 23 14:05:49 gnshost kernel: [ 3842.359063] I hate to see you leave, but...
-Mar 23 14:06:00 gnshost kernel: [ 3853.431204] Created debugfs subdir eudyptula
+j@gnshost:~/Eudyptula/task8$ sudo tail -1 /var/log/syslog
+May 24 11:43:11 gnshost kernel: [ 1244.893147] Created debugfs subdir eudyptula
 j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/id
 1be5456d23a8
-j@gnshost:~/Eudyptula/task8$ sudo sh -c 'echo "1be5456d23a8" > /sys/kernel/debug/eudyptula/id'
-j@gnshost:~/Eudyptula/task8$ sudo sh -c 'echo "bad_id" > /sys/kernel/debug/eudyptula/id'
+j@gnshost:~/Eudyptula/task8$ sudo sh -c "echo '1be5456d23a8' > /sys/kernel/debug/eudyptula/id"
+j@gnshost:~/Eudyptula/task8$ sudo sh -c "echo 'bad_id' > /sys/kernel/debug/eudyptula/id"
 sh: echo: I/O error
-j@gnshost:~/Eudyptula/task8$ sudo tail -1 /var/log/syslog
-Mar 23 14:05:05 gnshost kernel: [ 3797.702940] debugfs/eudyptula/id got bad input: bad_id
-j@gnshost:~/Eudyptula/taskt8$ 
+j@gnshost:~/Eudyptula/task8$ sudo sh -c "cat /sys/kernel/debug/eudyptula/foo"
+Initializing foo_page...
+j@gnshost:~/Eudyptula/task8$ sudo sh -c "echo 'This could be up to one page of kernel data...' > /sys/kernel/debug/eudyptula/foo"
+j@gnshost:~/Eudyptula/task8$ sudo sh -c "cat /sys/kernel/debug/eudyptula/foo"
+This could be up to one page of kernel data...
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+263399
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+263743
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+263859
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+263987
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+264091
+j@gnshost:~/Eudyptula/task8$ sudo cat /sys/kernel/debug/eudyptula/jiffies
+264219
+j@gnshost:~/Eudyptula/task8$ sudo rmmod mod_debugfs 
+j@gnshost:~/Eudyptula/task8$ sudo ls -al /sys/kernel/debug/eudyptula
+ls: cannot access '/sys/kernel/debug/eudyptula': No such file or directory
+j@gnshost:~/Eudyptula/task8$
